@@ -1,0 +1,348 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>繁星资源站</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #0f0f0f; color: #e0e0e0; min-height: 100vh;
+        }
+
+        /* Login Page */
+        .login-page {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0a 70%);
+            padding: 20px;
+        }
+        .login-card {
+            background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 16px;
+            padding: 40px; max-width: 400px; width: 100%; text-align: center;
+        }
+        .login-card .logo { font-size: 48px; margin-bottom: 8px; }
+        .login-card h1 {
+            font-size: 24px; font-weight: 700;
+            background: linear-gradient(90deg, #e94560, #0f3460); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; margin-bottom: 4px;
+        }
+        .login-card .sub { color: #666; font-size: 13px; margin-bottom: 28px; }
+        .login-card input {
+            width: 100%; background: #252545; border: 1px solid #3a3a5a; border-radius: 8px;
+            padding: 12px 16px; color: #ccc; font-size: 14px; margin-bottom: 12px;
+        }
+        .login-card input:focus { outline: none; border-color: #e94560; }
+        .login-card .btn {
+            width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 15px;
+            font-weight: 600; cursor: pointer; transition: all .2s;
+            background: #e94560; color: #fff; margin-top: 4px;
+        }
+        .login-card .btn:hover { background: #d63851; transform: translateY(-1px); }
+        .login-card .error { color: #e06060; font-size: 13px; margin-top: 12px; background: #3a1a1a; border: 1px solid #5a2a2a; border-radius: 8px; padding: 8px; display: none; }
+        .login-card .error.show { display: block; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 20px 32px; border-bottom: 1px solid #2a2a4a;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+        }
+        .header .brand { display: flex; align-items: center; gap: 10px; }
+        .header .brand .star { font-size: 28px; }
+        .header .brand h1 {
+            font-size: 20px; font-weight: 700;
+            background: linear-gradient(90deg, #e94560, #0f3460); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .user-info { display: flex; align-items: center; gap: 12px; font-size: 13px; color: #888; }
+        .header .user-info a { color: #e94560; text-decoration: none; }
+        .header .user-info a:hover { text-decoration: underline; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px 24px; }
+
+        /* Upload Card */
+        .upload-card {
+            background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 12px;
+            padding: 24px; margin-bottom: 20px;
+        }
+        .upload-card h2 { font-size: 15px; margin-bottom: 14px; color: #ccc; }
+        .upload-form { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .upload-form input[type="file"] {
+            flex: 1; min-width: 180px; background: #252545; border: 1px dashed #3a3a5a; border-radius: 8px;
+            padding: 10px 14px; color: #ccc; font-size: 13px; cursor: pointer;
+        }
+        .upload-form input[type="file"]:hover { border-color: #e94560; }
+        .upload-form input[type="password"] {
+            background: #252545; border: 1px solid #3a3a5a; border-radius: 8px;
+            padding: 10px 14px; color: #ccc; font-size: 13px; width: 120px;
+        }
+        .upload-form input[type="password"]:focus { outline: none; border-color: #e94560; }
+        .btn {
+            padding: 10px 20px; border: none; border-radius: 8px; font-size: 13px;
+            font-weight: 600; cursor: pointer; transition: all .2s;
+        }
+        .btn-primary { background: #e94560; color: #fff; }
+        .btn-primary:hover { background: #d63851; transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        .btn-outline { background: transparent; color: #e94560; border: 1px solid #e94560; }
+        .btn-outline:hover { background: #e94560; color: #fff; }
+
+        .search-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+        .search-bar input {
+            flex: 1; min-width: 180px; background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 8px;
+            padding: 10px 14px; color: #ccc; font-size: 13px;
+        }
+        .search-bar input:focus { outline: none; border-color: #e94560; }
+
+        .stats { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+        .stat-card {
+            background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 8px;
+            padding: 14px 20px; flex: 1; min-width: 120px; text-align: center;
+        }
+        .stat-card .num { font-size: 24px; font-weight: 700; color: #e94560; }
+        .stat-card .label { font-size: 11px; color: #666; margin-top: 2px; }
+
+        .file-list { }
+        .file-item {
+            background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 8px;
+            padding: 14px 18px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: all .2s; gap: 10px;
+        }
+        .file-item:hover { border-color: #3a3a5a; background: #1e1e34; }
+        .file-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+        .file-icon {
+            width: 36px; height: 36px; border-radius: 8px; display: flex;
+            align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+        }
+        .file-icon.zip, .file-icon.rar, .file-icon.\37 z { background: #2a3a2a; color: #6a6; }
+        .file-icon.exe, .file-icon.msi { background: #2a2a3a; color: #66a; }
+        .file-icon.pdf { background: #3a2a2a; color: #a66; }
+        .file-icon.default { background: #222; color: #888; }
+        .file-name { font-size: 13px; font-weight: 600; color: #ddd; word-break: break-all; }
+        .file-meta { font-size: 11px; color: #555; margin-top: 2px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .file-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .file-actions .btn { padding: 6px 14px; font-size: 12px; }
+
+        .empty-state { text-align: center; padding: 50px 20px; color: #555; }
+        .empty-state .icon { font-size: 40px; margin-bottom: 10px; }
+        .empty-state p { font-size: 13px; }
+
+        .progress-bar { display: none; width: 100%; height: 3px; background: #252545; border-radius: 2px; margin-top: 10px; overflow: hidden; }
+        .progress-bar.active { display: block; }
+        .progress-fill { height: 100%; background: #e94560; width: 0%; transition: width .3s; border-radius: 2px; }
+
+        .msg { padding: 8px 14px; border-radius: 8px; font-size: 12px; margin-top: 10px; display: none; }
+        .msg.success { display: block; background: #1a3a1a; color: #6a6; border: 1px solid #2a4a2a; }
+        .msg.error { display: block; background: #3a1a1a; color: #a66; border: 1px solid #5a2a2a; }
+
+        .toast { position: fixed; bottom: 20px; right: 20px; padding: 10px 18px; border-radius: 8px;
+            font-size: 12px; z-index: 2000; animation: slideIn .3s ease; }
+        .toast.success { background: #1a3a1a; color: #6a6; border: 1px solid #2a4a2a; }
+        .toast.error { background: #3a1a1a; color: #a66; border: 1px solid #5a2a2a; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .delete-btn { cursor: pointer; color: #555; font-size: 14px; padding: 4px 8px; border-radius: 4px; transition: all .2s; background: none; border: none; }
+        .delete-btn:hover { color: #e94560; background: #2a1a1a; }
+
+        @media (max-width: 768px) {
+            .header { padding: 14px 16px; }
+            .container { padding: 12px; }
+            .upload-form { flex-direction: column; }
+            .upload-form input { width: 100% !important; }
+            .file-item { flex-direction: column; align-items: stretch; }
+            .file-actions { align-self: flex-end; }
+            .stats { flex-direction: column; }
+        }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,.7); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 12px; padding: 24px;
+            max-width: 360px; width: 90%; }
+        .modal h3 { margin-bottom: 14px; color: #ccc; font-size: 15px; }
+        .modal input { width: 100%; background: #252545; border: 1px solid #3a3a5a; border-radius: 8px;
+            padding: 10px 14px; color: #ccc; font-size: 13px; margin-bottom: 10px; }
+        .modal input:focus { outline: none; border-color: #e94560; }
+        .modal .btns { display: flex; gap: 8px; justify-content: flex-end; }
+        .modal .btns .btn-secondary { background: #252545; color: #aaa; }
+        .modal .btns .btn-secondary:hover { background: #353565; }
+    </style>
+</head>
+<body>
+{% if not logged_in %}
+    <!-- Login Page -->
+    <div class="login-page">
+        <div class="login-card">
+            <div class="logo">&#10024;</div>
+            <h1>繁星资源站</h1>
+            <div class="sub">请登录后下载资源</div>
+            <form method="POST" action="/login">
+                <input type="text" name="username" placeholder="账号" required autocomplete="off">
+                <input type="password" name="password" placeholder="密码" required>
+                <button type="submit" class="btn">&#128274; 登 录</button>
+            </form>
+            {% if login_error %}
+            <div class="error show">{{ login_error }}</div>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    <!-- Header -->
+    <div class="header">
+        <div class="brand">
+            <span class="star">&#10024;</span>
+            <h1>繁星资源站</h1>
+        </div>
+        <div class="user-info">
+            <span>&#128100; {{ user }}</span>
+            <a href="/logout">&#10140; 退出</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="upload-card">
+            <h2>&#128228; 上传资源</h2>
+            <form class="upload-form" id="uploadForm">
+                <input type="file" id="fileInput" name="file" required>
+                <input type="password" id="passwordInput" name="password" placeholder="上传密码" required>
+                <button type="submit" class="btn btn-primary" id="uploadBtn">&#128229; 上传</button>
+            </form>
+            <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="msg" id="uploadMsg"></div>
+        </div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card"><div class="num" id="totalFiles">0</div><div class="label">资源总数</div></div>
+            <div class="stat-card"><div class="num" id="totalSize">0 MB</div><div class="label">总大小</div></div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="&#128269; 搜索资源名称..." oninput="searchFiles(this.value)">
+        </div>
+
+        <div class="file-list" id="fileList">
+            <div class="empty-state">
+                <div class="icon">&#128190;</div>
+                <p>暂无资源，请上传</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <h3>&#9888; 确认删除</h3>
+            <p style="color:#888;font-size:13px;margin-bottom:14px;">需要上传密码确认</p>
+            <input type="password" id="deletePassword" placeholder="上传密码">
+            <div class="btns">
+                <button class="btn btn-secondary" onclick="closeDeleteModal()">取消</button>
+                <button class="btn btn-primary" onclick="confirmDelete()" style="background:#5a1a1a;color:#e06060;">确认删除</button>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<script>
+{% if logged_in %}
+    window.addEventListener("DOMContentLoaded", loadFiles);
+
+    document.getElementById("uploadForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const file = document.getElementById("fileInput").files[0];
+        const password = document.getElementById("passwordInput").value;
+        if (!file) return showToast("请选择文件", "error");
+        if (!password) return showToast("请输入上传密码", "error");
+
+        const btn = document.getElementById("uploadBtn");
+        const progress = document.getElementById("progressBar");
+        const fill = document.getElementById("progressFill");
+        btn.disabled = true; progress.classList.add("active"); fill.style.width = "0%";
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("password", password);
+
+        try {
+            const resp = await fetch("/api/upload", { method: "POST", body: formData });
+            const data = await resp.json();
+            if (data.success) {
+                showToast("上传成功: " + data.file.name, "success");
+                document.getElementById("fileInput").value = "";
+                document.getElementById("passwordInput").value = "";
+                loadFiles();
+            } else showToast(data.error || "上传失败", "error");
+        } catch(err) { showToast("上传出错", "error"); }
+        finally { btn.disabled = false; setTimeout(() => { progress.classList.remove("active"); fill.style.width = "0%"; }, 500); }
+    });
+
+    let searchTimer;
+    function searchFiles(q) {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => loadFiles(q), 300);
+    }
+
+    async function loadFiles(query) {
+        try {
+            let url = "/api/files";
+            if (query) url = "/api/search?q=" + encodeURIComponent(query);
+            const resp = await fetch(url);
+            const files = await resp.json();
+            renderFiles(files);
+        } catch(err) { }
+    }
+
+    function renderFiles(files) {
+        const list = document.getElementById("fileList");
+        document.getElementById("totalFiles").textContent = files.length;
+        const totalBytes = files.reduce((s, f) => s + (f.size_bytes || 0), 0);
+        let sizeStr = "";
+        if (totalBytes < 1024) sizeStr = totalBytes + " B";
+        else if (totalBytes < 1024**2) sizeStr = (totalBytes/1024).toFixed(1) + " KB";
+        else if (totalBytes < 1024**3) sizeStr = (totalBytes/(1024**2)).toFixed(1) + " MB";
+        else sizeStr = (totalBytes/(1024**3)).toFixed(2) + " GB";
+        document.getElementById("totalSize").textContent = sizeStr;
+
+        if (files.length === 0) {
+            list.innerHTML = '<div class="empty-state"><div class="icon">&#128190;</div><p>暂无资源</p></div>';
+            return;
+        }
+        list.innerHTML = files.map(f => {
+            const ext = (f.ext || "").replace(".", "") || "default";
+            const icons = { zip: "&#128451;", rar: "&#128451;", "7z": "&#128451;", exe: "&#9881;", msi: "&#9881;",
+                pdf: "&#128196;", txt: "&#128221;", py: "&#128220;", js: "&#128220;", iso: "&#128190;" };
+            const icon = icons[ext] || "&#128196;";
+            return '<div class="file-item"><div class="file-info"><div class="file-icon ' + ext + '">' + icon + '</div><div><div class="file-name">' + esc(f.name) + '</div><div class="file-meta"><span>' + f.size + '</span><span>&middot;</span><span>' + f.modified + '</span></div></div></div><div class="file-actions"><a href="/download/' + encodeURIComponent(f.name) + '" class="btn btn-primary" download>&#11015; 下载</a><button class="delete-btn" onclick="openDelete(\'' + esc(f.name) + '\')" title="删除">&#10005;</button></div></div>';
+        }).join("");
+    }
+
+    let deleteTarget = null;
+    function openDelete(name) { deleteTarget = name; document.getElementById("deleteModal").classList.add("active"); document.getElementById("deletePassword").value = ""; }
+    function closeDeleteModal() { document.getElementById("deleteModal").classList.remove("active"); deleteTarget = null; }
+    async function confirmDelete() {
+        if (!deleteTarget) return;
+        const password = document.getElementById("deletePassword").value;
+        if (!password) return showToast("请输入密码", "error");
+        const formData = new FormData(); formData.append("password", password);
+        try {
+            const resp = await fetch("/api/delete/" + encodeURIComponent(deleteTarget), { method: "DELETE", body: formData });
+            const data = await resp.json();
+            if (data.success) { showToast("已删除", "success"); closeDeleteModal(); loadFiles(); }
+            else showToast(data.error || "删除失败", "error");
+        } catch(err) { showToast("删除出错", "error"); }
+    }
+
+    function showToast(msg, type) {
+        const t = document.createElement("div");
+        t.className = "toast " + type;
+        t.innerHTML = msg;
+        document.body.appendChild(t);
+        setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity .3s"; setTimeout(() => t.remove(), 300); }, 3000);
+    }
+
+    function esc(str) { const d = document.createElement("div"); d.textContent = str; return d.innerHTML; }
+{% endif %}
+</script>
+</body>
+</html>
